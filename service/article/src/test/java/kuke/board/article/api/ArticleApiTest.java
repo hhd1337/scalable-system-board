@@ -53,6 +53,13 @@ public class ArticleApiTest {
                 .body(ArticleResponse.class);
     }
 
+    @Test
+    void deleteTest() {
+        restClient.delete()
+                .uri("/v1/articles/{articleId}", 342827749637906432L)
+                .retrieve();
+    }
+
     @Getter
     @AllArgsConstructor
     static class ArticleCreateRequest {
