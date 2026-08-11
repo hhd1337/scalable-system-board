@@ -1,5 +1,6 @@
 package kuke.board.article.controller;
 
+import java.util.List;
 import kuke.board.article.service.ArticleService;
 import kuke.board.article.service.request.ArticleCreateRequest;
 import kuke.board.article.service.request.ArticleUpdateRequest;
@@ -32,6 +33,15 @@ public class ArticleController {
             @RequestParam("pageSize") Long pageSize
     ) {
         return articleService.readAll(boardId, page, pageSize);
+    }
+
+    @GetMapping("/v1/articles/infinite-scroll")
+    public List<ArticleResponse> readAllInfiniteScroll(
+            @RequestParam("boardId") Long boardId,
+            @RequestParam("pageSize") Long pageSize,
+            @RequestParam(value = "lastArticleId", required = false) Long lastArticleId
+    ) {
+        return articleService.readAllInfiniteScroll(boardId, pageSize, lastArticleId);
     }
 
     @PostMapping("/v1/articles")

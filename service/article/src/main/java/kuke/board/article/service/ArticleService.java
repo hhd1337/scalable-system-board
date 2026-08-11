@@ -1,5 +1,6 @@
 package kuke.board.article.service;
 
+import java.util.List;
 import kuke.board.article.entity.Article;
 import kuke.board.article.repository.ArticleRepository;
 import kuke.board.article.service.request.ArticleCreateRequest;
@@ -53,5 +54,13 @@ public class ArticleService {
                         PageLimitCalculator.calculatePageLimit(page, pageSize, 10L)
                 )
         );
+    }
+
+    public List<ArticleResponse> readAllInfiniteScroll(Long board_id, Long pageSize, Long lastArticleId) {
+        List<Article> articles = lastArticleId == null ?
+                articleRepository.findAllInfiniteScroll(board_id, pageSize) :
+                articleRepository.findAllInfiniteScroll(board_id, pageSize, lastArticleId);
+
+        return articles.stream().map(ArticleResponse::from).toList();
     }
 }
